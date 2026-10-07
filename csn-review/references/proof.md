@@ -61,8 +61,8 @@ project exists but are not practitioner knowledge.
 - 2: Key claims link to the real repo, commits, PRs, or screenshots; most are `verified`.
 - 3: Every central claim is `verified`; numbers state how they were measured.
 
-A `contradicted` side detail lowers C2 by one level (once, however many there are)
-and goes first in the must-fix list. It does not trigger the cap.
+A `contradicted` side detail does not change C2 or trigger the cap. It goes first in
+the must-fix list.
 
 ### C3. Failures and trade-offs (weight 2)
 - 0: Everything worked. No alternatives.

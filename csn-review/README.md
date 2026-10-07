@@ -92,8 +92,7 @@ honest post that only repeats the docs can't get past Revise. Author Authority i
 left out of it, because editing the article can't change who wrote it.
 
 A contradicted side detail (a wrong line count, a wrong claim about a tool the post
-is not about) does not cap the score. It lowers Verifiable evidence by one level
-and is listed first among the fixes.
+is not about) does not change the score. It is listed first among the fixes.
 
 | Score  | Verdict        |
 |--------|----------------|
