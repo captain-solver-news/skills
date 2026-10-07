@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Review this draft before we publish. The author has no repo to share, score it as is.\n\n# 5 Ways AI Agents Will Transform Your Development Workflow\n\nIn today's fast-paced world, AI agents are a game-changer for developers. They can write code, review pull requests, and generate tests. By leveraging agents, teams can unlock the power of automation and ship faster than ever. Agents understand your codebase and adapt to your style. Start using AI agents today and see the difference.",
-      "expected_output": "Should check for product-marketing.md first. Should build an evidence ledger in which every claim is unsupported. C1 should be 0 because nothing is first-hand, and C2 should be 0. Should flag hype phrases ('In today's fast-paced world', 'game-changer', 'unlock the power of'). Should apply the 'C1 = 0' cap and the 'No verified evidence' cap, so the final score is at most 3. Verdict should be 'Not a post yet' or 'Rework', with concrete suggestions on what to build or measure first.",
+      "expected_output": "Should check for product-marketing.md first. Should build an evidence ledger in which every claim is unsupported. C1 should be 0 because nothing is first-hand, and C2 should be 0. Should flag hype phrases ('In today's fast-paced world', 'game-changer', 'unlock the power of'). Should apply the 'C1 = 0' cap and the 'No verified evidence' cap, so the final score is at most 3. Verdict should be 'Not a post yet' or 'Rework', with concrete suggestions on what to build or measure first. Author Authority should be n/a, since no author is given.",
       "assertions": [
         "Checks for product-marketing.md",
         "Builds an evidence ledger before scoring",
@@ -12,19 +12,21 @@
         "Flags hype phrases",
         "Applies the C1 = 0 cap",
         "Final score is 3 or lower",
-        "Suggests what to build, measure, or try instead of rewriting"
+        "Suggests what to build, measure, or try instead of rewriting",
+        "Reports Author Authority as n/a"
       ],
       "files": []
     },
     {
       "id": 2,
       "prompt": "Score this post:\n\n# How we cut our Next.js build time in half\n\nWe migrated our blog from Webpack to Turbopack last week. Full commit: https://github.com/example-org/this-repo-does-not-exist-9f3a/commit/abc1234. Builds went from 140s to 70s on our CI. We first tried caching node_modules in GitHub Actions, but it saved only 8s, so we dropped it. Then we switched to Turbopack and hit a broken SVG import, which we fixed with a custom loader rule.",
-      "expected_output": "Should try to open the linked repo and commit with gh or a fetch, find that it does not exist, and mark the claim unsupported. Should give credit for first-hand detail and the rejected alternative (C1 and C3 at 2 or higher). Should note that the 140s to 70s numbers have no stated measurement method. Should apply the 'No verified evidence' cap, so the final score is at most 4. Fixes should ask for a working repo link and the CI run logs.",
+      "expected_output": "Should try to open the linked repo and commit with gh or a fetch, find that it does not exist, and mark the claim unsupported. Should give credit for first-hand detail and the rejected alternative (C1 and C3 at 2 or higher). Should note that the 140s to 70s numbers have no stated measurement method. Should apply the 'No verified evidence' cap, so Proof and the final score are at most 4. Author Authority should be n/a. Fixes should ask for a working repo link and the CI run logs.",
       "assertions": [
         "Attempts to verify the GitHub link",
         "Marks the dead link as unsupported",
         "Credits first-hand detail and the rejected caching approach",
         "Applies the 'No verified evidence' cap",
+        "Reports Author Authority as n/a",
         "Final score is 4 or lower",
         "Asks for a working repo link and measurement evidence"
       ],
@@ -33,11 +35,13 @@
     {
       "id": 3,
       "prompt": "We're backend developers and this is our first game. Review this devlog:\n\n# Building a platformer in Phaser: collision done right\n\nHere is the correct way to handle collisions in Phaser 3. Always use Arcade Physics for platformers, Matter.js is overkill. We set up tile collisions with setCollisionByProperty and tuned the player body offset until jumps felt right. Screenshot of the debug overlay attached.",
-      "expected_output": "Should recognize that the topic is new to the authors. Should flag that the post speaks with authority ('the correct way', 'always') without disclosing that the authors are beginners. Should apply the 'Authoritative tone on a topic new to the authors, no disclosure' cap, so the final score is at most 5. Should mark the screenshot as offered if it cannot be checked.",
+      "expected_output": "Should recognize that the topic is new to the authors. Should flag that the post speaks with authority ('the correct way', 'always') without disclosing that the authors are beginners. Should apply the 'Authoritative tone on a topic new to the authors, no disclosure' cap, so Proof is at most 5. Should find that 'Arcade Physics for platformers' and setCollisionByProperty are in Phaser's docs or common tutorials, so Originality is low. Author Authority should be n/a, because 'backend developers' without names is not enough to score. Final score at most 5. Should mark the screenshot as offered if it cannot be checked.",
       "assertions": [
         "Recognizes the topic is new to the authors",
         "Flags overclaimed authority without a beginner disclosure",
-        "Applies the authoritative-tone cap",
+        "Applies the authoritative-tone cap to Proof",
+        "Marks the key takeaways as docs or common, with URLs",
+        "Reports Author Authority as n/a",
         "Final score is 5 or lower"
       ],
       "files": []
@@ -59,7 +63,7 @@
       "prompt": "Review and rewrite this post so it's ready to publish: 'We tried Claude Code subagents for a week on our NestJS API. They were useful for test generation but kept breaking our DTO validation.'",
       "expected_output": "Should score the draft with the full rubric and output format, not rewrite it. Should list the top fixes with expected score gain. Should point the user to the copy-editing skill for the rewrite itself.",
       "assertions": [
-        "Produces a score and verdict",
+        "Produces three scale scores, a final score, and a verdict",
         "Does not rewrite the article",
         "Lists top fixes with expected gain",
         "Points to copy-editing for the rewrite"
@@ -69,7 +73,7 @@
     {
       "id": 6,
       "prompt": "You reviewed our draft earlier: 4.0 / 10, Rework. C1=2, C2=0, C3=1, C4=1, C5=1, C6=2, capped by 'No verified evidence'. Here is the revised version, please re-review:\n\n# How we cut our Next.js build time in half\n\nWe migrated our blog from Webpack to Turbopack last week. Builds went from 140s to 70s on our CI, measured as the median of 10 runs of the build step on main before and after the switch. We first tried caching node_modules in GitHub Actions, but it saved only 8s, so we dropped it. Turbopack then broke our SVG imports; we lost half a day before replacing @svgr/webpack with a turbopack loader rule. We would skip the caching experiment next time.",
-      "expected_output": "Should run the full review again on the whole draft. Should show previous and new level for each criterion and which change moved it (measurement method should raise C2 or C4, the cost of the SVG dead end should raise C3). Should note that the post still links no repo or CI logs, so the 'No verified evidence' cap still applies and the score cannot exceed 4. Should say the remaining gap is evidence, not wording, and ask for a repo link or CI run logs.",
+      "expected_output": "Should run the full review again on the whole draft. Should show previous and new level for each scale and criterion and which change moved it (measurement method should raise C2 or C4, the cost of the SVG dead end should raise C3). Should note that the post still links no repo or CI logs, so the 'No verified evidence' cap still applies and the score cannot exceed 4. Should say the remaining gap is evidence, not wording, and ask for a repo link or CI run logs.",
       "assertions": [
         "Re-runs the full review on the whole draft",
         "Shows previous and new level per criterion",
@@ -77,6 +81,63 @@
         "Keeps the 'No verified evidence' cap",
         "Final score is 4 or lower",
         "Says the gap is evidence, not wording"
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Review this draft before we publish. Code: https://github.com/captain-solver-news/prodstories-blog/commit/8a6f2b5098814956042df6bec8b6939c3da53841\n\n# Shiki in Next.js: dark and light code themes with zero client JS\n\nOur blog had no code blocks: Payload's Lexical editor supports inline code, but not a block of code. So we added our own Payload CMS block and highlighted it with Shiki. It worked on the first try. Claude Code already knew the Shiki API.\n\nTL;DR: Run Shiki in a Server Component, so the highlighter never reaches the browser. Create the highlighter once and cache the promise. Use `defaultColor: false` to get both themes as CSS variables and switch them with `[data-theme='light'] .shiki span { color: var(--shiki-light) }`. Build your own theme object from your design tokens.\n\nWe bundled Shiki for the browser with esbuild to see what we saved: 2.96 MB raw, about 501 KB gzip. In our setup it is 0. The first highlighter call took 314 ms on our machine, later calls about 48 ms.\n\nWe could have written our own tokenizer, but that is a lot of work. The most useful find was that Shiki already supports dual themes. We would still improve: copy errors are silent, and cold starts on serverless pay the 314 ms again.",
+      "expected_output": "Should verify the commit (it exists and touches components/blocks/code-block and lib/utils/highlight.ts), so Proof is high. Should build an insight ledger and find the Server Component usage (shiki.style/packages/next), the cached highlighter (shiki.style/guide/best-performance), dual themes with CSS variables (shiki.style/guide/dual-themes), and custom themes (shiki.style/guide/load-theme) in the official docs, with URLs. Should treat the bundle size as a number that confirms the docs, not as own knowledge. Should not count 'our own tokenizer' as a real alternative. Originality should be at most 3 (no own takeaway cap), the final score at most 5 because of the min(Proof, Originality) + 2 rule. 'Why from us' should say the post adds little beyond the docs, and suggest angles such as measuring the serverless cold start or comparing with rehype-pretty-code or Prism. Should check the claim that Lexical has no code block against the Payload docs, find the pre-built CodeBlock (payloadcms.com/docs/rich-text/blocks), mark it contradicted but not central, lower C2 by one level without applying the cap, and list it under must-fix facts. The final score is limited by min(Proof, Originality) + 2.",
+      "assertions": [
+        "Verifies the commit and scores Proof 6 or higher",
+        "Marks most takeaways as docs with shiki.style URLs",
+        "Does not count the hand-written tokenizer as a real alternative",
+        "Applies the 'no own takeaway' cap: Originality is 3 or lower",
+        "Applies the min(Proof, Originality) + 2 rule: final score is 5 or lower",
+        "Suggests concrete angles that would make the post original",
+        "Flags the 'no code block in Lexical' claim as contradicted by the Payload docs, with the URL",
+        "Treats it as a side detail: no contradicted-claim cap, listed under must-fix facts"
+      ],
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Score this post. Code: https://github.com/captain-solver-news/prodstories-blog/commit/82b55ce11f8b9377967bb5be6dbefae11b2c73ff\n\n# Typewriter animation in React without layout shift or horizontal scroll\n\nWe turned the static code block in our hero into a typewriter animation. Two problems showed up at once. First, the block height followed the typed text. Our snippets are 6 to 8 lines long, and at 390px wide the next section moved between 941px and 1133px with every snippet. We now reserve the height of the tallest snippet as `calc(var(--code-lines) * 1.9em + padding * 2)`; the padding term is needed because of border-box, without it the last line is cut off.\n\nSecond, our font size was `clamp(0.6875rem, 1.1vw, 0.8125rem)`, but the block is capped at 32rem in a two-column grid, so vw knows nothing about its width. We measured scrollWidth against clientWidth in Chrome: the 47-character line overflowed by 12–52px on 320–360px phones and by 23px on 1200–1279px desktops, and fit everywhere else, so the bug came and went with the window width. Fix: `container-type: inline-size` and `font-size: clamp(0.5rem, (100cqi - 2 * padding) / (columns * 0.6), 0.8125rem)`, because JetBrains Mono advances exactly 0.6em per glyph. Since the height is in em, it shrinks with the font, so the two fixes work together.\n\nWe first started the animation from an empty block and got an empty editor window until hydration, so now the first snippet starts fully typed. Limits: the 0.6 is specific to JetBrains Mono, and below a 258px block the 8px floor clips long lines.",
+      "expected_output": "Guard case against over-penalizing. Should verify the commit. Should find the measured overflow ranges, the height in em that follows a container-sized font, and the border-box padding gotcha as own takeaways, even if container query units by themselves are documented on MDN. Originality should be 5 or higher, Proof 7 or higher, and the final score 6.5 or higher. The repo's snippets are 8, 8, 10 and 11 lines long, so 'Our snippets are 6 to 8 lines long' is contradicted. It is a side detail: it should lower C2 by one level and appear under must-fix facts, but must not trigger the contradicted-claim cap.",
+      "assertions": [
+        "Verifies the commit",
+        "Marks the '6 to 8 lines' claim as contradicted and not central",
+        "Does not apply the contradicted-claim cap",
+        "Lists the line count under must-fix facts",
+        "Marks at least two takeaways as own",
+        "Originality is 5 or higher",
+        "Proof is 6.5 or higher",
+        "Final score is 6 or higher"
+      ],
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Score this post from our blog. It is published under the byline 'admin', with no author page and no profile links.\n\n# Moving our job queue from BullMQ to pg-boss\n\nWe moved 14 queues from BullMQ to pg-boss to drop Redis from our stack. Commit: https://github.com/example-org/this-repo-does-not-exist-9f3a/commit/abc1234. Throughput fell from 900 to 610 jobs per second in our load test, which was still enough for our peak of 120.",
+      "expected_output": "Should score Author Authority, because a byline exists, and give A1 = 0 for an anonymous byline, so the anonymous cap holds Authority at 2 or lower. Should mark the dead commit link unsupported and apply the 'No verified evidence' cap to Proof and the final score. Fixes should include naming a real author with profiles.",
+      "assertions": [
+        "Scores Author Authority instead of n/a",
+        "Applies the anonymous byline cap: Authority is 2 or lower",
+        "Applies the 'No verified evidence' cap",
+        "Final score is 4 or lower",
+        "Suggests naming a real author with linked profiles"
+      ],
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Score this post. It is published on our blog under the byline 'Anna Example', whose author page links https://github.com/octocat.\n\n# Why we stopped using Prisma migrations in CI\n\nWe run 40 microservices. Prisma migrations failed in CI twice a week because of advisory locks, so we moved to running them in a separate deploy job. Commit: https://github.com/example-org/this-repo-does-not-exist-9f3a/commit/abc1234",
+      "expected_output": "Should score Author Authority from the linked GitHub profile and use only professional facts from it. If a web search turns up other people or pages with the same name that can't be tied to the linked profile, it should leave them out of the ledger. Personal details such as age or address must not appear. The final score must use min(Proof, Originality) + 2, not Authority, for the '+ 2' limit.",
+      "assertions": [
+        "Uses only the linked GitHub profile and pages tied to it for Authority",
+        "Does not include personal details (age, address, family)",
+        "Leaves out same-name search hits that can't be tied to the author",
+        "Applies the '+ 2' limit with Proof and Originality only"
       ],
       "files": []
     }
