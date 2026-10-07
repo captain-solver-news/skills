@@ -67,7 +67,7 @@ originality = 1 + 9 × points / 18, rounded to one decimal
 
 Cap: no `own` takeaway in the ledger → max 3.
 
-## Step 4 — Why from us?
+## Step 4 — Why this post?
 
 Answer in one sentence: what does a reader get here that the docs don't give?
 If the honest answer is "nothing beyond seeing it assembled", say so, and suggest
@@ -80,7 +80,7 @@ compare with the two libraries a reader would actually pick.
 ```
 Originality: X.X / 10
 Caps: <none | no own takeaway → 3>
-Why from us: <one sentence>
+Why this post: <one sentence>
 
 | Criterion | Level | Weight | Why (quote / ledger #) | +1 would need |
 

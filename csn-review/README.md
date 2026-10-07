@@ -110,7 +110,7 @@ A solid, publishable first-hand post is a 7. Most first drafts land at 4–6.
 - The final score, the verdict, the three scale scores, and any caps.
 - Must-fix facts: every factual error any scale found, checked against the repo or
   the official docs.
-- "Why from us?": one sentence on what the reader gets here and nowhere else, and
+- "Why this post?": one sentence on what the reader gets here and nowhere else, and
   angles to try if the answer is "nothing".
 - The top three fixes, ordered by how much they would raise the final score.
 - For each scale: a table with each criterion's level, the quote or ledger row that
@@ -139,8 +139,6 @@ Optional, but recommended:
   authors. Without it, Originality and Authority are less reliable.
 - **Subagents.** If your agent supports them, the three scales run in parallel and
   independently. Without them, the reviewer scores them one after another.
-- **`.agents/product-marketing.md`** in your project. If it exists, the reviewer
-  uses its audience, voice rules, and banned phrases.
 
 ## Use
 

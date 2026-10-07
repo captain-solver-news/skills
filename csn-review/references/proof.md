@@ -88,8 +88,8 @@ at 1. A "what we would still improve" list describes limits: credit it in C4, no
 - 3: Reproducible in the reader's own repo tonight (a repo, branch, or gist to start from).
 
 ### C6. Trust and voice (weight 1)
-- 0: Unsourced stats, hype ("game-changer", "unlock the power of", "in today's
-  fast-paced world"), or phrases banned by the product marketing context.
+- 0: Unsourced stats or hype ("game-changer", "unlock the power of", "in today's
+  fast-paced world").
 - 1: Some hype or hedging; no clear verdict.
 - 2: Plain voice and a clear verdict.
 - 3: As 2, and the limits of the authors' experience are disclosed.

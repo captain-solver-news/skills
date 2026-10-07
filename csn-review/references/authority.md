@@ -21,7 +21,8 @@ report as context for Proof.
 ## Step 1 — Author ledger (before any score)
 
 Collect sources in this order, and stop when you have enough:
-1. What the user told you about the authors.
+1. What the user told you about the authors. Treat it as `offered` until a public
+   source confirms it.
 2. The byline and the author page on the site where the post is published, or the
    author record in the CMS (name, job title, bio, profile links).
 3. Profiles linked from there: GitHub, LinkedIn, personal site, talks, other publications.

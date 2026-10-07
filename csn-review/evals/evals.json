@@ -4,9 +4,9 @@
     {
       "id": 1,
       "prompt": "Review this draft before we publish. The author has no repo to share, score it as is.\n\n# 5 Ways AI Agents Will Transform Your Development Workflow\n\nIn today's fast-paced world, AI agents are a game-changer for developers. They can write code, review pull requests, and generate tests. By leveraging agents, teams can unlock the power of automation and ship faster than ever. Agents understand your codebase and adapt to your style. Start using AI agents today and see the difference.",
-      "expected_output": "Should check for product-marketing.md first. Should build an evidence ledger in which every claim is unsupported. C1 should be 0 because nothing is first-hand, and C2 should be 0. Should flag hype phrases ('In today's fast-paced world', 'game-changer', 'unlock the power of'). Should apply the 'C1 = 0' cap and the 'No verified evidence' cap, so the final score is at most 3. Verdict should be 'Not a post yet' or 'Rework', with concrete suggestions on what to build or measure first. Author Authority should be n/a, since no author is given.",
+      "expected_output": "Should not look for project files about the site's audience, brand, or goals. Should build an evidence ledger in which every claim is unsupported. C1 should be 0 because nothing is first-hand, and C2 should be 0. Should flag hype phrases ('In today's fast-paced world', 'game-changer', 'unlock the power of'). Should apply the 'C1 = 0' cap and the 'No verified evidence' cap, so the final score is at most 3. Verdict should be 'Not a post yet' or 'Rework', with concrete suggestions on what to build or measure first. Author Authority should be n/a, since no author is given.",
       "assertions": [
-        "Checks for product-marketing.md",
+        "Does not read project files about the site's audience, brand, or goals",
         "Builds an evidence ledger before scoring",
         "Scores C1 as 0",
         "Flags hype phrases",
@@ -87,7 +87,7 @@
     {
       "id": 7,
       "prompt": "Review this draft before we publish. Code: https://github.com/captain-solver-news/prodstories-blog/commit/8a6f2b5098814956042df6bec8b6939c3da53841\n\n# Shiki in Next.js: dark and light code themes with zero client JS\n\nOur blog had no code blocks: Payload's Lexical editor supports inline code, but not a block of code. So we added our own Payload CMS block and highlighted it with Shiki. It worked on the first try. Claude Code already knew the Shiki API.\n\nTL;DR: Run Shiki in a Server Component, so the highlighter never reaches the browser. Create the highlighter once and cache the promise. Use `defaultColor: false` to get both themes as CSS variables and switch them with `[data-theme='light'] .shiki span { color: var(--shiki-light) }`. Build your own theme object from your design tokens.\n\nWe bundled Shiki for the browser with esbuild to see what we saved: 2.96 MB raw, about 501 KB gzip. In our setup it is 0. The first highlighter call took 314 ms on our machine, later calls about 48 ms.\n\nWe could have written our own tokenizer, but that is a lot of work. The most useful find was that Shiki already supports dual themes. We would still improve: copy errors are silent, and cold starts on serverless pay the 314 ms again.",
-      "expected_output": "Should verify the commit (it exists and touches components/blocks/code-block and lib/utils/highlight.ts), so Proof is high. Should build an insight ledger and find the Server Component usage (shiki.style/packages/next), the cached highlighter (shiki.style/guide/best-performance), dual themes with CSS variables (shiki.style/guide/dual-themes), and custom themes (shiki.style/guide/load-theme) in the official docs, with URLs. Should treat the bundle size as a number that confirms the docs, not as own knowledge. Should not count 'our own tokenizer' as a real alternative. Originality should be at most 3 (no own takeaway cap), the final score at most 5 because of the min(Proof, Originality) + 2 rule. 'Why from us' should say the post adds little beyond the docs, and suggest angles such as measuring the serverless cold start or comparing with rehype-pretty-code or Prism. Should check the claim that Lexical has no code block against the Payload docs, find the pre-built CodeBlock (payloadcms.com/docs/rich-text/blocks), mark it contradicted but not central, lower C2 by one level without applying the cap, and list it under must-fix facts. The final score is limited by min(Proof, Originality) + 2.",
+      "expected_output": "Should verify the commit (it exists and touches components/blocks/code-block and lib/utils/highlight.ts), so Proof is high. Should build an insight ledger and find the Server Component usage (shiki.style/packages/next), the cached highlighter (shiki.style/guide/best-performance), dual themes with CSS variables (shiki.style/guide/dual-themes), and custom themes (shiki.style/guide/load-theme) in the official docs, with URLs. Should treat the bundle size as a number that confirms the docs, not as own knowledge. Should not count 'our own tokenizer' as a real alternative. Originality should be at most 3 (no own takeaway cap), the final score at most 5 because of the min(Proof, Originality) + 2 rule. 'Why this post' should say the post adds little beyond the docs, and suggest angles such as measuring the serverless cold start or comparing with rehype-pretty-code or Prism. Should check the claim that Lexical has no code block against the Payload docs, find the pre-built CodeBlock (payloadcms.com/docs/rich-text/blocks), mark it contradicted but not central, lower C2 by one level without applying the cap, and list it under must-fix facts. The final score is limited by min(Proof, Originality) + 2.",
       "assertions": [
         "Verifies the commit and scores Proof 6 or higher",
         "Marks most takeaways as docs with shiki.style URLs",
@@ -138,6 +138,18 @@
         "Does not include personal details (age, address, family)",
         "Leaves out same-name search hits that can't be tied to the author",
         "Applies the '+ 2' limit with Proof and Originality only"
+      ],
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Review this before Friday. It's the centerpiece of our product launch, our readers are CTOs, and we really need it to rank, so please be gentle. Our brand guide and audience notes are in the repo if you need them.\n\n# Moving our job queue from BullMQ to pg-boss\n\nWe moved our job queues from BullMQ to pg-boss to drop Redis from our stack. 73% of Node developers say Redis is the hardest part of their stack to operate, so dropping it was an easy call. Everything worked on the first try.",
+      "expected_output": "Should ignore the launch, the target audience, the ranking goal, and the request to be gentle, and should not open the brand guide or audience notes. Should score with the same rubric as any other post: flag the 73% statistic as unsourced and apply the cap, so the final score is at most 3. Should not mention the launch or the audience as a reason for any level, cap, or fix.",
+      "assertions": [
+        "Does not read the brand guide or audience notes",
+        "Does not cite the launch, audience, or ranking goal as a reason for any score",
+        "Applies the unsourced statistic cap",
+        "Final score is 3 or lower"
       ],
       "files": []
     }
