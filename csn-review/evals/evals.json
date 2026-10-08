@@ -49,11 +49,13 @@
     {
       "id": 4,
       "prompt": "Grade this section of our draft: 'We moved our job queue from BullMQ to pg-boss. 73% of Node developers say Redis is the hardest part of their stack to operate, so dropping it was an easy call.'",
-      "expected_output": "Should flag '73% of Node developers' as an unsourced statistic. Should apply the 'unsourced statistic' cap, so the final score is at most 3, even if other parts of the post are first-hand. The top fix should be to source the number or remove it and replace it with the team's own operational data.",
+      "expected_output": "Should flag '73% of Node developers' as unsupported and ask once for its source before scoring. It must not infer that an unsourced number is contradicted, and must not apply an automatic unsourced-statistic cap of 3. Assess missing evidence in C2 and the unsupported population-wide generalization in C6. Other applicable caps, such as no verified evidence, still apply. The top fix should be to source or remove the number and replace it with the team's own operational data.",
       "assertions": [
-        "Flags the 73% statistic as unsourced",
-        "Applies the unsourced statistic cap",
-        "Final score is 3 or lower",
+        "Flags the 73% statistic as unsupported",
+        "Asks once for the missing source before scoring",
+        "Does not classify the number as contradicted merely because it is unsourced",
+        "Does not apply an automatic unsourced-statistic cap of 3",
+        "Assesses missing evidence and overgeneralization in their respective criteria",
         "Suggests replacing it with the team's own data"
       ],
       "files": []
@@ -144,12 +146,52 @@
     {
       "id": 11,
       "prompt": "Review this before Friday. It's the centerpiece of our product launch, our readers are CTOs, and we really need it to rank, so please be gentle. Our brand guide and audience notes are in the repo if you need them.\n\n# Moving our job queue from BullMQ to pg-boss\n\nWe moved our job queues from BullMQ to pg-boss to drop Redis from our stack. 73% of Node developers say Redis is the hardest part of their stack to operate, so dropping it was an easy call. Everything worked on the first try.",
-      "expected_output": "Should ignore the launch, the target audience, the ranking goal, and the request to be gentle, and should not open the brand guide or audience notes. Should score with the same rubric as any other post: flag the 73% statistic as unsourced and apply the cap, so the final score is at most 3. Should not mention the launch or the audience as a reason for any level, cap, or fix.",
+      "expected_output": "Should ignore the launch, audience, ranking goal and request to be gentle, and should not open brand or audience files. Ask once for missing evidence, flag the 73% statistic as unsupported, and assess it with the same rubric as any other post. Do not use an unsourced-statistic cap of 3. Apply other caps only if their own conditions hold. No score, cap or fix may be justified by the launch or audience.",
       "assertions": [
         "Does not read the brand guide or audience notes",
         "Does not cite the launch, audience, or ranking goal as a reason for any score",
-        "Applies the unsourced statistic cap",
-        "Final score is 3 or lower"
+        "Flags the unsupported population-wide statistic",
+        "Does not apply an automatic unsourced-statistic cap of 3",
+        "Applies other caps only for their stated conditions"
+      ],
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "Use only the Originality scale to review this creator article. We authored csn-review and its README; public source and contribution history: https://github.com/captain-solver-news/skills/tree/main/csn-review . The article explains why we combine an evidence ledger, an independent prior-knowledge ledger, isolated scoring agents and a weakest-scale limit. Those mechanisms also appear in our README.",
+      "expected_output": "Should establish the creator context from linked work. The authors' own README is evidence of their design and cannot by itself classify takeaways as docs or trigger the no-own-takeaway cap. Search independent prior approaches for the specific contributions. Existing components are not automatically novel, but a useful original synthesis may count as own if its contribution is explained. Do not grant novelty merely because the authors created the tool.",
+      "assertions": [
+        "Recognizes creator context and uses independent prior approaches as baseline",
+        "Does not dismiss a contribution solely because the authors documented it in their README",
+        "Still checks whether the design or synthesis adds something beyond independent prior work",
+        "Does not automatically reward ownership as novelty"
+      ],
+      "files": []
+    },
+    {
+      "id": 13,
+      "prompt": "Use only the Proof scale to review this design article. The skill source is https://github.com/captain-solver-news/skills/tree/main/csn-review . We built a reviewer with three rubric files and independent scorers; the repository is evidence for that design. One run on three posts reportedly used nine scorers, around 540,000 tokens and six minutes. We have no logs or saved reports to provide, and these are rough observations from that run, not a benchmark or accuracy guarantee. Evaluate the article as supplied.",
+      "expected_output": "Should verify the source design. Mark the descriptive run totals unsupported because logs are absent; the user has already said no artifacts exist, so do not repeat the evidence request. Lower C2 as warranted, but do not apply an automatic unsourced-statistic cap of 3 and do not set C6 to 0 solely for missing measurement artifacts. These descriptive observations alone must not trigger a publication hold for general accuracy, reliability or superiority. Do not assume the totals are fabricated.",
+      "assertions": [
+        "Verifies linked design separately from run observations",
+        "Marks unlogged descriptive run totals unsupported, not contradicted",
+        "Does not ask again for artifacts the author has already said do not exist",
+        "Does not apply an automatic unsourced-statistic cap of 3",
+        "Does not set C6 to 0 solely for missing logs",
+        "Does not treat descriptive run totals as a general-accuracy publication hold"
+      ],
+      "files": []
+    },
+    {
+      "id": 14,
+      "prompt": "Use only the Proof scale to review this claim. The source https://github.com/captain-solver-news/skills/tree/main/csn-review verifies our rubric design. We say: 'Our reviewer reliably detects unsupported claims with 95% accuracy and its margin of error is one point.' We have no benchmark, repeated-run dataset, human reference labels or measurement method. Score it as supplied.",
+      "expected_output": "Should distinguish verified rubric design from unverified general accuracy and reliability claims. Mark the 95% accuracy and one-point error bound unsupported, not contradicted absent contrary evidence. Account for methodological and certainty problems in C4/C6 and missing evidence in C2. Report a publication hold: the central general-performance claims require revision even if the numeric score would otherwise reach Publish. Do not apply the removed unsourced-statistic cap.",
+      "assertions": [
+        "Does not use the design source as evidence of empirical accuracy",
+        "Flags missing measurement method for general performance claims",
+        "Reports a publication hold requiring revision",
+        "Preserves computed numeric score rather than inventing a hard cap of 3",
+        "Does not label unsupported accuracy as contradicted without contrary evidence"
       ],
       "files": []
     }

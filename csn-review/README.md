@@ -3,7 +3,7 @@
 An AI reviewer for developer blog posts. It scores a draft on three questions:
 
 - **Proof:** did the authors actually do the thing they write about, and can a reader check it?
-- **Originality:** what does the reader get here that the tool's docs don't give?
+- **Originality:** what original knowledge or design does the article contribute?
 - **Author Authority:** would a skeptical reader trust these authors on this topic?
 
 ## Why
@@ -37,8 +37,10 @@ time. The skill avoids that in five ways:
    with the reason"), not by adjectives ("good", "strong").
 3. **A formula.** Each scale is a weighted sum, mapped to 1–10.
 4. **Caps.** Some problems limit the score no matter how good the rest is. No
-   verified evidence at all → at most 4. An invented statistic → at most 3. Nothing
-   the docs don't already say → Originality at most 3.
+   verified evidence at all → at most 4. A materially contradicted central claim →
+   at most 3. No original takeaway beyond the comparison baseline → Originality at
+   most 3. Missing logs for a reported run lower evidence scores without an automatic
+   cap of 3.
 5. **Independent scorers.** If the agent can run subagents, each scale is scored by
    its own subagent that never sees the other scores. A convincing post can't make
    the reviewer generous about its originality.
@@ -58,9 +60,14 @@ time. The skill avoids that in five ways:
 
 ### Originality
 
+For articles about using a tool, the baseline is its official docs and usual
+articles. For articles by the tool's creators, the baseline is independent prior
+approaches. Their own README documents their contribution; its existence alone
+does not make the contribution unoriginal. Authorship alone does not prove novelty.
+
 | Criterion        | Weight | In short                                                       |
 |------------------|--------|----------------------------------------------------------------|
-| New knowledge    | 3      | Takeaways that are in neither the docs nor the usual articles  |
+| New knowledge    | 3      | Original designs or takeaways beyond the comparison baseline  |
 | Real alternatives| 2      | Compared with what a reader would actually pick, ideally measured |
 | Point of view    | 1      | A non-obvious verdict, argued from the authors' results        |
 
@@ -83,7 +90,7 @@ An anonymous byline caps Authority at 2.
 ```
 final = mean of the scored scales
 final ≤ min(Proof, Originality) + 2
-final ≤ Proof's hard caps (contradicted central claim, unsourced statistic,
+final ≤ Proof's hard caps (materially contradicted central claim,
         not first-hand, no verified evidence)
 ```
 
@@ -103,6 +110,9 @@ is not about) does not change the score. It is listed first among the fixes.
 | 1–2.9  | Not a post yet |
 
 A solid, publishable first-hand post is a 7. Most first drafts land at 4–6.
+Unsupported central claims of general accuracy, reliability, or superiority require
+revision before publication, even if the numeric score reaches 7. The reviewer keeps
+the computed score, reports Revise, and explains the evidence hold.
 
 ## What you get back
 
@@ -147,8 +157,9 @@ Ask in plain words:
 - "Is this worth a post?"
 - "Score this article, here's the repo: https://github.com/..."
 
-Include links to the repo, commits, or PRs, and say who wrote the post. If the draft
-has no evidence, the reviewer asks for it once before scoring.
+Include links to the repo, commits, or PRs, and say who wrote the post. Before scoring,
+the reviewer asks once for specific missing evidence behind central claims, even if
+a repository is already linked.
 
 ## Files
 

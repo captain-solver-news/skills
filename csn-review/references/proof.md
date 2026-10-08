@@ -23,6 +23,12 @@ Status:
 - `unsupported`: no evidence, or the link is dead.
 - `contradicted`: the evidence says otherwise.
 
+An unsupported numerical claim is not a contradicted claim. Missing logs for the
+authors' own observations reduce C2; they do not automatically trigger a hard cap.
+Claims of general accuracy, reliability, or superiority require an appropriate
+measurement method. Without one, mark them unsupported and require revision before
+publication. Distinguish descriptive run observations from these general claims.
+
 Check GitHub with `gh repo view`, `gh api repos/{owner}/{repo}/commits/{sha}`, and
 `gh pr view`. If `gh` is not installed or not authenticated, use the public API
 (`curl -s https://api.github.com/repos/{owner}/{repo}/commits/{sha}`,
@@ -88,11 +94,15 @@ at 1. A "what we would still improve" list describes limits: credit it in C4, no
 - 3: Reproducible in the reader's own repo tonight (a repo, branch, or gist to start from).
 
 ### C6. Trust and voice (weight 1)
-- 0: Unsourced stats or hype ("game-changer", "unlock the power of", "in today's
-  fast-paced world").
+- 0: Misleading certainty, unsupported generalizations presented as established
+  facts, or hype ("game-changer", "unlock the power of", "in today's fast-paced world").
 - 1: Some hype or hedging; no clear verdict.
 - 2: Plain voice and a clear verdict.
 - 3: As 2, and the limits of the authors' experience are disclosed.
+
+Missing measurement artifacts alone do not make C6 = 0. Assess evidence availability
+in C2. Assess misleading certainty, unsupported generalizations, and hype in C6.
+Account for missing measurement methods in C4 when they affect technical correctness.
 
 ## Step 3 — Compute
 
@@ -105,7 +115,7 @@ Then apply caps. The lowest cap wins:
 
 | Condition                                                        | Max | Also caps the final score |
 |------------------------------------------------------------------|-----|---------------------------|
-| A `contradicted` central claim, or an unsourced statistic        | 3   | yes                       |
+| A materially `contradicted` central claim                        | 3   | yes                       |
 | C1 = 0 (not first-hand)                                          | 3   | yes                       |
 | No `verified` evidence at all                                    | 4   | yes                       |
 | Code in the post does not match the linked repo                  | 5   | no                        |
@@ -122,4 +132,6 @@ Caps: <none | condition → max>
 Evidence ledger: <table from Step 1>
 
 Must-fix facts: <every `contradicted` row, with what the evidence says, or none>
+Publication hold: <none | unsupported central claim of general accuracy, reliability,
+                  or superiority that needs measurement evidence>
 ```
